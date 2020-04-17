@@ -1,7 +1,7 @@
 insert into roles (name, allowed_resource, allowed_read, allowed_create, allowed_update, allowed_delete) values
 ('Admin', '/', TRUE , TRUE, TRUE, TRUE),
-('Manager', '/depts,/departments,/employees,/ems,/acnts,/accounts', TRUE, TRUE, TRUE, FALSE),
-('user', '/employees,/ems,/acnts,/accounts', TRUE, FALSE, FALSE, FALSE)
+('Manager', '/clubs,/player,/pls,/acnts,/accounts', TRUE, TRUE, TRUE, FALSE),
+('user', '/player,/pls,/clubs', TRUE, FALSE, FALSE, FALSE)
 ;
 
 insert into users (name, password, first_name, last_name, email) values
