@@ -9,5 +9,8 @@ import org.springframework.stereotype.Service;
 public class UserService {
     @Autowired
     private UserDao userDao;
+
     public User getUserByCredentials(String email, String password) throws Exception{return userDao.getUserByCredentials(email,password);}
+
+    public User getUserById(Long id){return userDao.getUserById(id);}
 }

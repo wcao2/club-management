@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
+import java.util.Map;
 
 /*
 *  this controller receive user name and password to authenticate the user, if the user is authenticated, return the token to client
@@ -30,10 +32,17 @@ public class AuthController {
     //RequestEntity reteurn both jwt and status
     public ResponseEntity userLogin(@RequestBody User user){
         try{
-            //if cannot find user, return 401
-            User u=userService.getUserByCredentials(user.getEmail(),user.getPassword());
-            if(u==null) return ResponseEntity.status(HttpServletResponse.SC_UNAUTHORIZED).build();
-            return ResponseEntity.ok().body(jwtService.generateToken(u));
+            User u=null;
+            if(user.getEmail()!=null){
+                //if cannot find user, return 401
+                u=userService.getUserByCredentials(user.getEmail(),user.getPassword());
+            }else if(user.getName()!=null){
+                u=userService.getUserByCredentials(user.getName(),user.getPassword());
+            }
+            if(u==null)  return ResponseEntity.status(HttpServletResponse.SC_UNAUTHORIZED).body("please input email or username");
+            Map<String,String> map=new HashMap<>();
+            map.put("token",jwtService.generateToken(u));
+            return ResponseEntity.ok().body(map);
         }catch (Exception e){
             e.printStackTrace();
         }

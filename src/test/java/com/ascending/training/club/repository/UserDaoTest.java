@@ -35,4 +35,10 @@ public class UserDaoTest {
         User u = userDao.getUserByCredentials(email,password);
         Assert.assertEquals(u.getEmail(),"xyhuang@training.ascendingdc.com");
     }
+
+    @Test
+    public void getUserByIdTest(){
+        User u=userDao.getUserById(1L);
+        Assert.assertEquals("dwang",u.getName());
+    }
 }
