@@ -3,6 +3,7 @@ package com.ascending.training.club.service;
 
 import com.ascending.training.club.init.AppBootStrap;
 import com.ascending.training.club.model.User;
+import io.jsonwebtoken.Claims;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,5 +25,16 @@ public class JWTServiceTest {
         String token=jwtService.generateToken(u);
         Assert.assertNotNull(token);
 
+    }
+
+    @Test
+    public void decryptTokenTest(){
+        User u= new User();
+        u.setId(1L);
+        u.setName("dwang");
+        String token=jwtService.generateToken(u);
+        Claims c=jwtService.decpytToken(token);
+        String username=c.getSubject();
+        Assert.assertEquals(u.getName(),username);
     }
 }

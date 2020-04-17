@@ -5,6 +5,8 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.spec.SecretKeySpec;
@@ -17,6 +19,8 @@ public class JWTService {
     private final String SECRET_KEY="weicao-project";
     private final String ISSUER="com.ascending";
     private final long EXPIRATION_TIME=86400*1000;
+
+    private Logger logger= LoggerFactory.getLogger(getClass());
 
     public String generateToken(User u){
         //JWT signature algorithm uses to sign the token
@@ -39,7 +43,9 @@ public class JWTService {
         return builder.compact();
     }
 
-    public User decpytToken(String token){
-        return null;
+    public Claims decpytToken(String token){
+        Claims claims=Jwts.parser().setSigningKey(DatatypeConverter.parseBase64Binary(SECRET_KEY)).parseClaimsJws(token).getBody();
+        logger.info("Claims: "+claims.toString());
+        return claims;
     }
 }

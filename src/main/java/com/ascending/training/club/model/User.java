@@ -1,7 +1,8 @@
 package com.ascending.training.club.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonView;
+import org.apache.commons.codec.digest.DigestUtils;
+
 
 import javax.persistence.*;
 import java.util.List;
@@ -56,9 +57,9 @@ public class User {
         return password;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+    //in my project, I use 封装 to encrypt my password and use set method to set my password
+    //封装： we 封装 logic in Java class, other people can invoke without knowing the logic
+    public void setPassword(String password) {this.password = DigestUtils.md5Hex(password.trim());}
 
     public String getSecretKey() {
         return secretKey;
