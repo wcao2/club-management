@@ -34,7 +34,7 @@ public class User {
 
     @ManyToMany(cascade=CascadeType.ALL,fetch=FetchType.EAGER)//fetch=FetchType.EAGER
     @JoinTable(name="users_roles",joinColumns = {@JoinColumn(name="user_id")},inverseJoinColumns = {@JoinColumn(name="role_id")})
-    @JsonIgnore
+    //@JsonIgnore
     private List<Role> roles;
 
     public Long getId() {

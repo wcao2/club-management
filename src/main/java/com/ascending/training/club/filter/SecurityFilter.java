@@ -43,7 +43,7 @@ public class SecurityFilter implements Filter {
         int statucCode= HttpServletResponse.SC_UNAUTHORIZED;
         String uri=req.getRequestURI();
         if(IGNORED_PATHS.contains(uri)) return HttpServletResponse.SC_ACCEPTED;
-
+        String verb=req.getMethod();
         try{
             String token=req.getHeader("Authorization").replaceAll("Bearer: ","");
             if(token==null||token.isEmpty()) return statucCode;
@@ -52,7 +52,19 @@ public class SecurityFilter implements Filter {
                 User u=userService.getUserById(Long.valueOf(claims.getId()));
                 if(u!=null) statucCode=HttpServletResponse.SC_ACCEPTED;
             }
-            return statucCode;
+            String allowedResources="/";
+            switch (verb){
+                case "GET" : allowedResources=(String) claims.get("allowedReadResources");break;
+                case "POST" : allowedResources=(String) claims.get("allowedCreateResources");break;
+                case "PUT" : allowedResources=(String) claims.get("allowedResources");break;
+                case "DELETE" : allowedResources=(String) claims.get("allowedReadResources");break;
+            }
+            for(String s:allowedResources.split(",")){
+                if(uri.trim().toLowerCase().startsWith(s.trim().toLowerCase())){
+                    statucCode=HttpServletResponse.SC_ACCEPTED;
+                    break;
+                }
+            }
         }catch (Exception e){
             logger.error("can not verify token",e);
         }
