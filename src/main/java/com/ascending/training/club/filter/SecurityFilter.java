@@ -23,7 +23,7 @@ import java.util.Set;
 * */
 @WebFilter(filterName = "securityFilter",urlPatterns = {"/*"},dispatcherTypes = {DispatcherType.REQUEST})
 public class SecurityFilter implements Filter {
-    private static final Set<String> IGNORED_PATHS=new HashSet<>(Arrays.asList("/auth"));
+    private static final Set<String> IGNORED_PATHS=new HashSet<>(Arrays.asList("/auth","/auth/signup"));
     @Autowired
     private JWTService jwtService;
     @Autowired
@@ -49,9 +49,11 @@ public class SecurityFilter implements Filter {
             if(token==null||token.isEmpty()) return statucCode;
             Claims claims=jwtService.decpytToken(token);
             if(claims.getId()!=null){
-                User u=userService.getUserById(Long.valueOf(claims.getId()));
-                if(u!=null) statucCode=HttpServletResponse.SC_ACCEPTED;
+                User u=userService.getUserById(Long.valueOf(claims.getId()));//
+                if(u==null) return statucCode;
             }
+
+            //improvement: u.getRoles so the token is not too long
             String allowedResources="/";
             switch (verb){
                 case "GET" : allowedResources=(String) claims.get("allowedReadResources");break;

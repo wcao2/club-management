@@ -13,4 +13,6 @@ public class UserService {
     public User getUserByCredentials(String email, String password) throws Exception{return userDao.getUserByCredentials(email,password);}
 
     public User getUserById(Long id){return userDao.getUserById(id);}
+
+    public User saveUser(User u){return userDao.save(u);}
 }

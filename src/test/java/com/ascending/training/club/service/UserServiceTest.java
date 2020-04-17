@@ -34,4 +34,10 @@ public class UserServiceTest {
         User u = userService.getUserByCredentials(email, password);
         Assert.assertEquals(u.getEmail(),"xyhuang@training.ascendingdc.com");
     }
+
+    @Test
+    public void getUserByIdTest(){
+        User u=userService.getUserById(3L);
+        Assert.assertEquals("xyhuang",u.getName());
+    }
 }
