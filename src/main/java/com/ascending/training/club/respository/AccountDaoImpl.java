@@ -23,6 +23,24 @@ public class AccountDaoImpl implements AccountDao {
 
 
     @Override
+    public List<Account> getAll() {
+        Session session= HibernateUtil.getSessionFactory().openSession();
+//        String hql="FROM Account as a where a.id=:id";
+        String hql="FROM Account";
+        List<Account> accounts=new ArrayList<>();
+        try {
+            Query<Account> query=session.createQuery(hql);
+            accounts=query.list();
+            session.close();
+            return accounts;
+        }catch (Exception e){
+            logger.error("failure to retrieve all Account");
+            session.close();
+            return null;
+        }
+    }
+
+    @Override
     public Account save(Account account) {
         Transaction transaction=null;
         Session session=HibernateUtil.getSessionFactory().openSession();

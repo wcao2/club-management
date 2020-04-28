@@ -52,6 +52,7 @@ public class LogFilter implements Filter {
         }
         return false;
     }
+    // DESC: Organize all requests to get the input and output format I want
     private String logInfo(HttpServletRequest req) {
         String formData = null;
         String httpMethod = req.getMethod();

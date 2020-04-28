@@ -33,7 +33,7 @@ public class SecurityFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-            HttpServletRequest req=(HttpServletRequest)servletRequest;
+            HttpServletRequest req=(HttpServletRequest)servletRequest; //based on Http status
             int statusCode=authorization(req);
             if(statusCode==HttpServletResponse.SC_ACCEPTED) filterChain.doFilter(servletRequest,servletResponse);
             else((HttpServletResponse)servletResponse).sendError(statusCode);
@@ -58,8 +58,8 @@ public class SecurityFilter implements Filter {
             switch (verb){
                 case "GET" : allowedResources=(String) claims.get("allowedReadResources");break;
                 case "POST" : allowedResources=(String) claims.get("allowedCreateResources");break;
-                case "PUT" : allowedResources=(String) claims.get("allowedResources");break;
-                case "DELETE" : allowedResources=(String) claims.get("allowedReadResources");break;
+                case "PUT" : allowedResources=(String) claims.get("allowedUpdateResources");break;
+                case "DELETE" : allowedResources=(String) claims.get("allowedDeleteResources");break;
             }
             for(String s:allowedResources.split(",")){
                 if(uri.trim().toLowerCase().startsWith(s.trim().toLowerCase())){

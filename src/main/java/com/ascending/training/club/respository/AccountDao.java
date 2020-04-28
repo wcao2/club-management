@@ -7,6 +7,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 public interface AccountDao {
+    List<Account> getAll();
     Account save(Account account);
     boolean delete(Long id);
     Account getAccountById(Long id);

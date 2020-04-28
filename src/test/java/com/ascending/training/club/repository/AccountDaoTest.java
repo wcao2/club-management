@@ -16,6 +16,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = AppBootStrap.class)
@@ -57,5 +58,11 @@ public class AccountDaoTest {
     public void deleteTest(){
         boolean bool = accountDao.delete(8L);
         Assert.assertTrue(bool);
+    }
+
+    @Test
+    public void getAccount(){
+        List<Account> account=accountDao.getAll();
+        Assert.assertEquals(1,account.size());
     }
 }

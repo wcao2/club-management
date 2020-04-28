@@ -35,8 +35,8 @@ public class AuthController {
     @Autowired private RoleDao roleDao;
 
     @RequestMapping(value = "", method = RequestMethod.POST)
-    //RequestEntity reteurn both jwt and status
-    public ResponseEntity userLogin(@RequestBody User user){
+    //RequestEntity reteurn both jwt and status(customized http status code)
+    public ResponseEntity userLogin(@RequestBody User user){//
         try{
             User u=null;
             if(user.getEmail()!=null){

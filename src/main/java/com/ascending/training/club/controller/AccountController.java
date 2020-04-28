@@ -7,6 +7,9 @@ import com.ascending.training.club.service.PlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
+import java.util.List;
+
 @RestController
 @RequestMapping(value={"/accounts"})
 public class AccountController {
@@ -45,5 +48,11 @@ public class AccountController {
     public Account getAccountById(@PathVariable("id") Long id){
         Account account=accountService.getAccountById(id);
         return account;
+    }
+    //{prefix}/accounts GET
+    @RequestMapping(value = "",method = RequestMethod.GET)
+    public List<BigDecimal> getBalanceAll(){
+        List<BigDecimal> balanceAll = accountService.getBalanceAll();
+        return balanceAll;
     }
 }

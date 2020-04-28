@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 public class JWTService {
     private final String SECRET_KEY="weicao-project";
     private final String ISSUER="com.ascending";
-    private final long EXPIRATION_TIME=86400*1000;
+    private final long EXPIRATION_TIME=86400*1000;//one day
 
     private Logger logger= LoggerFactory.getLogger(getClass());
 
