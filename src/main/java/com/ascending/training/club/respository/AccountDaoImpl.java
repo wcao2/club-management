@@ -26,7 +26,7 @@ public class AccountDaoImpl implements AccountDao {
     public List<Account> getAll() {
         Session session= HibernateUtil.getSessionFactory().openSession();
 //        String hql="FROM Account as a where a.id=:id";
-        String hql="FROM Account";
+        String hql="FROM Account as a LEFT JOIN FETCH a.player";
         List<Account> accounts=new ArrayList<>();
         try {
             Query<Account> query=session.createQuery(hql);
