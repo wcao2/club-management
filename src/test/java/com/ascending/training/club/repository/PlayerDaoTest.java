@@ -47,8 +47,8 @@ public class PlayerDaoTest {
 
     @Test
     public void getPlayerByNameTest(){ //PASS
-        Player p = playerDao.getPlayerByName("WuLei");
-        Assert.assertEquals("WuLei",p.getName());
+        Player p = playerDao.getPlayerByName("Klose");
+        Assert.assertEquals("Klose",p.getName());
     }
 
     @Test

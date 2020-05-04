@@ -2,9 +2,9 @@ package com.ascending.training.club.respository;
 
 import com.ascending.training.club.model.Club;
 import com.ascending.training.club.model.Player;
-import com.ascending.training.club.util.HibernateUtil;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import org.slf4j.Logger;
@@ -22,13 +22,16 @@ public class PlayerDaoImpl implements PlayerDao {
     @Autowired
     private ClubDao clubDao;
 
+    @Autowired
+    private SessionFactory sessionFactory;
+
     private Logger logger= LoggerFactory.getLogger(getClass());
 
 
     @Override
     public Player save(Player player, String clubName) {
         Transaction transaction=null;
-        Session session=HibernateUtil.getSessionFactory().openSession();
+        Session session=sessionFactory.openSession();
         try {
             Club club=clubDao.getClubByName(clubName);
             if(club!=null){
@@ -53,7 +56,7 @@ public class PlayerDaoImpl implements PlayerDao {
     @Override
     public Player updatePlayerEmail(Player player) {
         Transaction transaction=null;
-        Session session=HibernateUtil.getSessionFactory().openSession();
+        Session session=sessionFactory.openSession();
         try {
             transaction=session.beginTransaction();
             session.update(player);
@@ -72,7 +75,7 @@ public class PlayerDaoImpl implements PlayerDao {
     public List<Player> getPlayersAndClub() {
         List<Player> players=new ArrayList<>();
         String hql="FROM Player as p LEFT JOIN FETCH p.club";
-        Session session=HibernateUtil.getSessionFactory().openSession();
+        Session session=sessionFactory.openSession();
         try {
             Query<Player> query=session.createQuery(hql);
             players=query.list();
@@ -88,7 +91,7 @@ public class PlayerDaoImpl implements PlayerDao {
     public Player getPlayerById(Long Id) {
         if(Id==null) return null;
         String hql="FROM Player as p left join fetch p.club where p.id=:id";
-        Session session=HibernateUtil.getSessionFactory().openSession();
+        Session session=sessionFactory.openSession();
         Query<Player> query=session.createQuery(hql);
         query.setParameter("id",Id);
         Player player=query.uniqueResult();
@@ -100,7 +103,7 @@ public class PlayerDaoImpl implements PlayerDao {
     public Player getPlayerByName(String playerName) {
         if(playerName==null) return null;
         String hql="FROM Player as p left join fetch p.club where lower(p.name)=:name";
-        Session session=HibernateUtil.getSessionFactory().openSession();
+        Session session=sessionFactory.openSession();
         Query<Player> query=session.createQuery(hql);
         query.setParameter("name",playerName.toLowerCase());
         Player player=query.uniqueResult();
@@ -113,7 +116,7 @@ public class PlayerDaoImpl implements PlayerDao {
         String hql="DELETE Player as p where p.id=:Id";
         int deletedCount;
         Transaction transaction=null;
-        Session session=HibernateUtil.getSessionFactory().openSession();
+        Session session=sessionFactory.openSession();
         try {
             transaction=session.beginTransaction();
             Query<Player> query=session.createQuery(hql);

@@ -1,13 +1,14 @@
 package com.ascending.training.club.respository;
 
 import com.ascending.training.club.model.Role;
-import com.ascending.training.club.util.HibernateUtil;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -17,10 +18,13 @@ import java.util.List;
 public class RoleDaoImpl implements RoleDao{
     private Logger logger= LoggerFactory.getLogger(getClass());
 
+    @Autowired
+    private SessionFactory sessionFactory;
+
     @Override
     public Role save(Role role) {
         Transaction transaction=null;
-        Session session= HibernateUtil.getSessionFactory().openSession();
+        Session session= sessionFactory.openSession();
         try {
             transaction=session.beginTransaction();
             session.save(role);
@@ -39,7 +43,7 @@ public class RoleDaoImpl implements RoleDao{
     public List<Role> getRoles() {
         List<Role> roles=new ArrayList<>();
         String hql="FROM Role";
-        Session session=HibernateUtil.getSessionFactory().openSession();
+        Session session=sessionFactory.openSession();
         try{
             Query<Role> query=session.createQuery(hql);
             roles=query.list();
@@ -55,7 +59,7 @@ public class RoleDaoImpl implements RoleDao{
     @Override
     public Role getById(Long id) {
         String hql="FROM Role r where r.id=:Id";
-        Session session=HibernateUtil.getSessionFactory().openSession();
+        Session session=sessionFactory.openSession();
         try{
             Query<Role> query=session.createQuery(hql);
             query.setParameter("Id",id);
@@ -74,7 +78,7 @@ public class RoleDaoImpl implements RoleDao{
         String hql="DELETE Role as r where r.id=:Id";
         int deletedCount=0;
         Transaction transaction=null;
-        Session session=HibernateUtil.getSessionFactory().openSession();
+        Session session=sessionFactory.openSession();
         try{
             transaction=session.beginTransaction();
             Query<Role> query=session.createQuery(hql);
@@ -95,7 +99,7 @@ public class RoleDaoImpl implements RoleDao{
     public int update(Role role) {
         Transaction transaction=null;
         boolean isSuccess=true;
-        Session session=HibernateUtil.getSessionFactory().openSession();
+        Session session=sessionFactory.openSession();
         try{
             transaction=session.beginTransaction();
             session.saveOrUpdate(role);

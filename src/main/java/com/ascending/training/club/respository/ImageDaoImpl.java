@@ -1,22 +1,26 @@
 package com.ascending.training.club.respository;
 
 import com.ascending.training.club.model.Image;
-import com.ascending.training.club.util.HibernateUtil;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
 public class ImageDaoImpl implements ImageDao {
+    @Autowired
+    private SessionFactory sessionFactory;
+
     Logger logger=(Logger) LoggerFactory.getLogger(this.getClass());
     @Override
     public Image save(Image image) {
-        Session session= HibernateUtil.getSessionFactory().openSession();
+        Session session= sessionFactory.openSession();
         Transaction transaction=null;
         try {
             transaction=session.beginTransaction();
@@ -34,7 +38,7 @@ public class ImageDaoImpl implements ImageDao {
     @Override
     public int delByUserId(Long id) {
         String hql="delete from Image where user.id=:id";
-        Session session=HibernateUtil.getSessionFactory().openSession();
+        Session session=sessionFactory.openSession();
         Transaction transaction=null;
         try{
             transaction=session.beginTransaction();
@@ -53,7 +57,7 @@ public class ImageDaoImpl implements ImageDao {
 
     @Override
     public List<Image> getByUserId(Long id) {
-        Session session=HibernateUtil.getSessionFactory().openSession();
+        Session session=sessionFactory.openSession();
         String hql="from Image as i where user.id=:id";
         Query query=session.createQuery(hql);
         query.setParameter("id",id);

@@ -42,9 +42,7 @@ public class ClubDaoTest {
     @Test
     public void saveTest(){//PASS
         Club c=clubDao.save(c1);
-        List<Club> clubs = clubDao.getClubsEager();
-        int expectNum=3;
-        Assert.assertEquals(3,clubs.size());
+        Assert.assertEquals("Spanish",c.getName());
     }
 
     @Test
@@ -64,13 +62,13 @@ public class ClubDaoTest {
     @Test
     public void getClubEagerTest(){//PASS
         List<Club> clubs = clubDao.getClubsEager();
-        int expectNum=2;
+        int expectNum=3;
         Assert.assertEquals(expectNum,clubs.size());
     }
 
     @Test
     public void deleteClubTest(){//PASS
-        boolean b=clubDao.delete(4L);
+        boolean b=clubDao.delete(3L);
         Assert.assertTrue(b);
     }
 

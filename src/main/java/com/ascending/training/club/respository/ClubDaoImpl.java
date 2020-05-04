@@ -1,9 +1,9 @@
 package com.ascending.training.club.respository;
 
 import com.ascending.training.club.model.Club;
-import com.ascending.training.club.util.HibernateUtil;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import org.slf4j.Logger;
@@ -20,10 +20,14 @@ import java.util.stream.Collectors;
 public class ClubDaoImpl implements ClubDao {
     private Logger logger= LoggerFactory.getLogger(getClass());
 
+    //convert Singleton to DI(Field Injection)
+    @Autowired
+    private SessionFactory sessionFactory;
+
     @Override
     public Club save(Club club) {
         Transaction transaction=null;
-        Session session=HibernateUtil.getSessionFactory().openSession();
+        Session session=sessionFactory.openSession();
         try{
             transaction=session.beginTransaction();
             session.save(club);
@@ -40,7 +44,7 @@ public class ClubDaoImpl implements ClubDao {
     @Override
     public Club getClubById(Long id) {
         String hql="FROM Club c LEFT JOIN FETCH c.player where c.id=:Id";
-        Session session=HibernateUtil.getSessionFactory().openSession();
+        Session session=sessionFactory.openSession();
         try{
             Query<Club> query=session.createQuery(hql);
             query.setParameter("Id",id);
@@ -58,7 +62,7 @@ public class ClubDaoImpl implements ClubDao {
         Transaction transaction=null;
         if(clubName==null) return null;
         String hql="FROM Club as c LEFT JOIN FETCH c.player where lower(c.name)=:name";
-        Session session=HibernateUtil.getSessionFactory().openSession();
+        Session session=sessionFactory.openSession();
         transaction=session.beginTransaction();
         Query<Club> query=session.createQuery(hql);
         query.setParameter("name",clubName.toLowerCase());
@@ -76,7 +80,7 @@ public class ClubDaoImpl implements ClubDao {
         Transaction transaction=null;
         String hql="FROM Club c left join fetch c.player";
         List<Club> clubs=new ArrayList<>();
-        Session session=HibernateUtil.getSessionFactory().openSession();
+        Session session=sessionFactory.openSession();
         try{
             Query<Club> query=session.createQuery(hql);
             clubs=query.list();
@@ -94,7 +98,7 @@ public class ClubDaoImpl implements ClubDao {
         String hql="DELETE Club as c where c.id=:Id";
         Transaction transaction=null;
         int deletedCount=0;
-        Session session=HibernateUtil.getSessionFactory().openSession();
+        Session session=sessionFactory.openSession();
         try {
             transaction=session.beginTransaction();
             Query<Club> query=session.createQuery(hql);
@@ -115,7 +119,7 @@ public class ClubDaoImpl implements ClubDao {
     public boolean updateDesc(Club club) {
         Transaction transaction=null;
         boolean isSuccess=true;
-        Session session=HibernateUtil.getSessionFactory().openSession();
+        Session session=sessionFactory.openSession();
         try {
             transaction=session.beginTransaction();
             session.update(club);
