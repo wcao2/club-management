@@ -41,4 +41,9 @@ public class UserDaoTest {
         User u=userDao.getUserById(1L);
         Assert.assertEquals("dwang",u.getName());
     }
+
+    @Test
+    public void deleteUserTest(){
+
+    }
 }

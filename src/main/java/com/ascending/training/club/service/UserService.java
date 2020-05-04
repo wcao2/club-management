@@ -15,4 +15,6 @@ public class UserService {
     public User getUserById(Long id){return userDao.getUserById(id);}
 
     public User saveUser(User u){return userDao.save(u);}
+
+    public boolean deleteUser(Long id){return userDao.delete(id);}
 }

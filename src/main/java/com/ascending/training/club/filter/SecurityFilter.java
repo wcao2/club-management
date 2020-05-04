@@ -12,6 +12,7 @@ import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -42,15 +43,19 @@ public class SecurityFilter implements Filter {
     private int authorization(HttpServletRequest req){
         int statucCode= HttpServletResponse.SC_UNAUTHORIZED;
         String uri=req.getRequestURI();
+        HttpSession session=req.getSession();
+
         if(IGNORED_PATHS.contains(uri)) return HttpServletResponse.SC_ACCEPTED;
         String verb=req.getMethod();
         try{
-            String token=req.getHeader("Authorization").replaceAll("Bearer: ","");
+            String token=req.getHeader("Authorization").replaceAll("Bearer: ","");//TODO REGEX
             if(token==null||token.isEmpty()) return statucCode;
             Claims claims=jwtService.decpytToken(token);
-            if(claims.getId()!=null){
-                User u=userService.getUserById(Long.valueOf(claims.getId()));//
-                if(u==null) return statucCode;
+            User user=userService.getUserById(Long.valueOf(claims.getId()));
+            if(user==null){
+                return statucCode;
+            }else{
+                session.setAttribute("UserId",user.getId());
             }
 
             //improvement: u.getRoles so the token is not too long
@@ -62,9 +67,14 @@ public class SecurityFilter implements Filter {
                 case "DELETE" : allowedResources=(String) claims.get("allowedDeleteResources");break;
             }
             for(String s:allowedResources.split(",")){
-                if(uri.trim().toLowerCase().startsWith(s.trim().toLowerCase())){
-                    statucCode=HttpServletResponse.SC_ACCEPTED;
-                    break;
+                if(s.trim().isEmpty()){
+                     break;
+
+                }else {
+                    if(uri.trim().toLowerCase().startsWith(s.trim().toLowerCase())){
+                        statucCode=HttpServletResponse.SC_ACCEPTED;
+                        break;
+                    }
                 }
             }
         }catch (Exception e){

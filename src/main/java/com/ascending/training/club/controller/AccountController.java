@@ -18,9 +18,6 @@ public class AccountController {
     @Autowired
     private PlayerService playerService;
 
-//    Account save(Account account);
-//    boolean delete(Long id);
-//    Account getAccountById(Long id);
 
     //{prefix}/accounts POST
     @RequestMapping(value = "",method = RequestMethod.POST)
@@ -54,5 +51,12 @@ public class AccountController {
     public List<BigDecimal> getBalanceAll(){
         List<BigDecimal> balanceAll = accountService.getBalanceAll();
         return balanceAll;
+    }
+
+    //{prefix}/accounts GET
+    @RequestMapping(value = "/balasc",method = RequestMethod.GET)
+    public List<Account> getBalance(){
+        List<Account> accountBalanceAsc = accountService.getAccountBalanceAsc();
+        return accountBalanceAsc;
     }
 }
