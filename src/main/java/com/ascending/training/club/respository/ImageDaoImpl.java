@@ -1,5 +1,6 @@
 package com.ascending.training.club.respository;
 
+import com.ascending.training.club.model.Club;
 import com.ascending.training.club.model.Image;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -17,7 +18,8 @@ public class ImageDaoImpl implements ImageDao {
     @Autowired
     private SessionFactory sessionFactory;
 
-    Logger logger=(Logger) LoggerFactory.getLogger(this.getClass());
+    private Logger logger= LoggerFactory.getLogger(getClass());
+
     @Override
     public Image save(Image image) {
         Session session= sessionFactory.openSession();
@@ -29,6 +31,7 @@ public class ImageDaoImpl implements ImageDao {
             session.close();;
             return image;
         }catch (Exception e){
+            if(transaction!=null) transaction.rollback();
             session.close();;
             logger.error("fail to save this file",e);
             return null;
