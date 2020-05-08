@@ -25,14 +25,8 @@ public class FileService {
     @Autowired
     private AmazonS3 s3Client;
 
-    public void uploadFile(File file){
-        if(file!=null){
-            PutObjectRequest req=new PutObjectRequest(bucketName,file.getName(),file);
-            System.out.println(file.getName().toString());
-            s3Client.putObject(req);
-        }else {
-            logger.error("cannot upload the file");
-        }
+    public String uploadFileToS3(MultipartFile file){
+        return uploadFile(bucketName,file);
     }
 
     public String uploadFile(String bucketName, MultipartFile file){
@@ -53,6 +47,17 @@ public class FileService {
     public String getUrl(String bucketName,String s3Key){
         URL url=s3Client.getUrl(bucketName,s3Key);
         return url.toString();
+    }
+
+
+    public void uploadFile(File file){
+        if(file!=null){
+            PutObjectRequest req=new PutObjectRequest(bucketName,file.getName(),file);
+            System.out.println(file.getName().toString());
+            s3Client.putObject(req);
+        }else {
+            logger.error("cannot upload the file");
+        }
     }
 }
 

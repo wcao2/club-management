@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,7 +19,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.time.LocalDateTime;
 
 @RestController
@@ -38,17 +41,21 @@ public class FileController {
 //    private String bucketName;
 
     @RequestMapping(value = "",method = RequestMethod.POST,consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public String uploadFile(@RequestParam("file") MultipartFile file, HttpServletRequest req){
+    public ResponseEntity uploadFile(@RequestParam("file") MultipartFile file, HttpServletRequest req){
         logger.info("test file name: "+file.getOriginalFilename());
         HttpSession session=req.getSession();
         Long id = (Long)session.getAttribute("UserId");
+        if(id==null)
+            return ResponseEntity.status(HttpServletResponse.SC_UNAUTHORIZED).body("the user Id is empty");
         User user = userService.getUserById(id);
-        String s3Key=fileService.uploadFile("ascending-weicao",file);
+        if(user==null)
+            return ResponseEntity.status(HttpServletResponse.SC_UNAUTHORIZED).body("the user is not exist");
+        String s3Key=fileService.uploadFileToS3(file);
         Image image=new Image(user,file.getOriginalFilename(),s3Key, LocalDateTime.now());
         imageService.save(image);
         //sqs
         messageService.sendMessage(image.toString(),5);
-        return s3Key;
+        return ResponseEntity.status(HttpServletResponse.SC_OK).body(s3Key);
     }
 }
 

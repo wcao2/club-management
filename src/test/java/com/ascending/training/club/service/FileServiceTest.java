@@ -54,12 +54,24 @@ public class FileServiceTest {
     @Test
     public void uploadFileTest4() throws IOException {
         MultipartFile testFile=mock(MultipartFile.class);
-        ObjectMetadata mockData = mock(ObjectMetadata.class);
+        //ObjectMetadata mockData = mock(ObjectMetadata.class);
         when(testFile.getInputStream()).thenReturn(mock(InputStream.class));
-        when(mockData.getContentType()).thenReturn("xxx");
+        //when(mockData.getContentType()).thenReturn("xxx");
         when(testFile.getOriginalFilename()).thenReturn("yyy");
 
         fileService.uploadFile("yyy",testFile);
+        verify(s3Client,times(1)).putObject(anyString(),anyString(),any(InputStream.class),any());
+    }
+
+    //s3Client.putObject(bucketName,newFileName,file.getInputStream(),objectMetadata);
+    @Test
+    public void uploadFileTest5() throws IOException {
+        MultipartFile testFile=mock(MultipartFile.class);
+        //ObjectMetadata mockData = mock(ObjectMetadata.class);
+        when(testFile.getInputStream()).thenReturn(mock(InputStream.class));
+        //when(mockData.getContentType()).thenReturn("xxx");
+        when(testFile.getOriginalFilename()).thenReturn("yyy");
+        fileService.uploadFileToS3(testFile);
         verify(s3Client,times(1)).putObject(anyString(),anyString(),any(InputStream.class),any());
     }
 
