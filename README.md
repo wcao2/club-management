@@ -26,3 +26,54 @@ Postman, Maven, [flyway](https://flywaydb.org/getstarted/why), PostgresSql, Dock
        docker pull postgres
        docker run --name dealerDB -e POSTGRES_DB=dealer -e POSTGRES_USER=admin -e POSTGRES_PASSWORD=password -p 5431:5432 -d postgres
     ```
+    * Flyway database migration
+    ```xml
+      <plugin>
+          <groupId>org.flywaydb</groupId>
+          <artifactId>flyway-maven-plugin</artifactId>
+          <version>${flyway.version}</version>
+          <configuration>
+            <driver>org.postgresql.Driver</driver>
+            <url>jdbc:postgresql://localhost:5431/databaseName</url>
+            <user>admin</user>
+            <password>password</password>
+            <schemas>
+               <schema>public</schema>
+            </schemas>
+          </configuration>
+       </plugin>
+    ```
+    * Environment properties 
+        * Run time VM options
+    ```
+        -Ddatabase.driver=org.postgresql.Driver
+        -Ddatabase.dialect=org.hibernate.dialect.PostgreSQL9Dialect
+        -Ddatabase.url=jdbc:postgresql://localhost:5431/databaseName
+        -Ddatabase.user=admin
+        -Ddatabase.password=password
+        -Daws.accessKeyId=AWS accesskey
+        -Daws.secretKey=AWS secretKey
+        -Dspring.profiles.active=dev
+        -Daws.s3.bucketName=my own bucket name
+        -Daws.sqs.name=my own queue name
+    ```
+      
+    * Database Migration  
+    Schema migration for execute DDL DML based on the Environment properties in resources/db.migration folder
+    ```
+        mvn clean compile flyway:clean
+        mvn clean compile flyway:migrate
+    ``` 
+    * Spring boot entry point
+    ```Java
+    @SpringBootApplication(scanBasePackages = {"com.ascending.training.club"})
+    @ServletComponentScan(basePackages = {"com.ascending.training.club.filter"})
+    public class AppBootStrap {
+        public static void main(String[] args) {
+            SpringApplication.run(AppBootStrap.class,args);
+        }
+    }
+    ```
+    * Reference Demo
+    
+    
