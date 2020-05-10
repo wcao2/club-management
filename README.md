@@ -1,4 +1,4 @@
-#Union of European Football Associations(*UEFA*) Clubs
+## Union of European Football Associations(*UEFA*) Clubs
 
 
 ### Overview
@@ -13,7 +13,7 @@ Based on the Spring Framework by using
 [AmazonS3](https://docs.aws.amazon.com/AmazonS3/latest/dev/UploadObjSingleOpJava.html),
 Postman, Maven, [flyway](https://flywaydb.org/getstarted/why), PostgresSql, Docker, Amazon SQS, and Amazon S3.
 ---
-* Project Approach  
+### Project Approach  
     1. Create Club, Player, Account, Image, User, Role object, and created related table and columns in database.
     2. The relation between Club(inverse side) and Player(owing side) is One to Many, the club_id is the foreign key(fk) and stored in the players table.
     3. The relation between Player(inverse side) and Account(owing side) is One to Many, the player_id is the fk and stored in accounts table.
@@ -76,7 +76,59 @@ Postman, Maven, [flyway](https://flywaydb.org/getstarted/why), PostgresSql, Dock
         }
     }
     ```
-  
-    * Reference Demo
-    
-    
+---
+* Reference Demo
+    #### User Sign Up
+    ```URL
+    http://localhost:8080/auth/signup
+   ```
+  Request Body
+  ``` Json
+    {
+    	"name":"Sam",
+    	"email":"sam@gmu.edu",
+    	"password":"123456789@test"
+    }
+  ```
+  Response Body
+  ```Json
+    {
+        "id": 8,
+        "name": "Sam",
+        "first_name": null,
+        "last_name": null,
+        "email": "sam@gmu.edu",
+        "address": null,
+        "hired_date": "2020-05-10",
+        "department": {
+            "id": 2,
+            "name": "R&D",
+            "description": "Research and Development",
+            "location": "Room 101, 999 Washington Ave. Falls Church, VA"
+        },
+        "account": null,
+        "roles": [
+            {
+                "name": "user"
+            }
+        ]
+    }
+  ```
+   ![](images/signUp.png)
+     #### User Login
+     Request Body
+   ```  Json
+     {
+        "email":"sam@gmu.edu",
+        "password":"123456789@test"
+     }
+   ```
+     Response Body
+     ``` Json
+     {
+        "token": "eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiI4Iiwic3ViIjoiU2FtIiwiaWF0IjoxNTg5MTQ4NjA4LCJpc3MiOiJjb20uYXNjZW5kaW5nIiwiZXhwIjoxNTg5MjM1MDA4LCJhbGxvd2VkUmVzb3VyY2UiOiIvY2x1YnMsL3BsYXllciwvcGxzLC9hY250cywvYWNjb3VudHMiLCJhbGxvd2VkUmVhZFJlc291cmNlcyI6Ii9jbHVicywvcGxheWVyLC9wbHMsL2FjbnRzLC9hY2NvdW50cyIsImFsbG93ZWRDcmVhdGVSZXNvdXJjZXMiOiIvY2x1YnMsL3BsYXllciwvcGxzLC9hY250cywvYWNjb3VudHMiLCJhbGxvd2VkVXBkYXRlUmVzb3VyY2VzIjoiL2NsdWJzLC9wbGF5ZXIsL3BscywvYWNudHMsL2FjY291bnRzIiwiYWxsb3dlZERlbGV0ZVJlc291cmNlcyI6IiJ9.90Z1iGP3yV1J52M7H7TBZQg8vDNRNL4VHx1Jwi-q7HU"
+     }
+     ```
+    ![](images/loginIn.png)
+     #### Get All Clubs and Related Players
+     ![](images/getAllClubsandItsPlayers.png)
