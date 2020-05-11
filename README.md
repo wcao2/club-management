@@ -132,3 +132,7 @@ Postman, Maven, [flyway](https://flywaydb.org/getstarted/why), PostgresSql, Dock
     ![](images/loginIn.png)
      #### Get All Clubs and Related Players
      ![](images/getAllClubsandItsPlayers.png)
+     #### Upload a sample file to s3 and generate one message stored in sqs
+     ![](images/uploadS3.png)
+     ![](images/s3.png)
+     ![](images/sqs.png)
