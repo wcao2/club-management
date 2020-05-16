@@ -6,6 +6,7 @@ import com.ascending.training.club.service.FileService;
 import com.ascending.training.club.service.ImageService;
 import com.ascending.training.club.service.MessageService;
 import com.ascending.training.club.service.UserService;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 
 @RestController
 @RequestMapping(value={"/files"})
@@ -53,8 +55,16 @@ public class FileController {
         String s3Key=fileService.uploadFileToS3(file);
         Image image=new Image(user,file.getOriginalFilename(),s3Key, LocalDateTime.now());
         imageService.save(image);
+        //do some operation before send to sqs
+        HashMap map=new HashMap();
+        map.put("id",image.getId());
+        map.put("email",user.getEmail());
+        map.put("fileName",image.getFileName());
+        map.put("s3key",image.getS3Key());
+        map.put("time",image.getCreateTime().toString());
+        JSONObject json=new JSONObject(map);
         //sqs
-        messageService.sendMessage(image.toString(),5);
+        messageService.sendMessage(json.toString(),5);
         return ResponseEntity.status(HttpServletResponse.SC_OK).body(s3Key);
     }
 }

@@ -136,3 +136,6 @@ Postman, Maven, [flyway](https://flywaydb.org/getstarted/why), PostgresSql, Dock
      ![](images/uploadS3.png)
      ![](images/s3.png)
      ![](images/sqs.png)
+     #### Use one of the Java Message Service(JMS) model point to point. A message is delivered from a producer to one of the consumer which registered for the queue.   
+     ![](images/JMS.png)
+     
