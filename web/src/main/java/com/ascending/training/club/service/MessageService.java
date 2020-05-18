@@ -20,7 +20,7 @@ public class MessageService {
 
     public MessageService(@Autowired AmazonSQS amazonSQS){
         this.sqsClient=amazonSQS;
-        //queUrl = getQueUrl(System.getProperty("aws.sqs.name"));//test rm this line
+        queUrl = getQueUrl(System.getProperty("aws.sqs.name"));//test rm this line
     }
 
     //send a message to sqs

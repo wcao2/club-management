@@ -25,22 +25,19 @@ public class FileService {
     @Autowired
     private AmazonS3 s3Client;
 
-    public String uploadFileToS3(MultipartFile file){
+    public String uploadFileToS3(MultipartFile file) throws Exception {
         return uploadFile(bucketName,file);
     }
 
-    public String uploadFile(String bucketName, MultipartFile file){
+    public String uploadFile(String bucketName, MultipartFile file)throws Exception{
         String uuid= UUID.randomUUID().toString();
         String originalFileName=file.getOriginalFilename();
         String newFileName=uuid+"."+ Files.getFileExtension(originalFileName);
         ObjectMetadata objectMetadata=new ObjectMetadata();
         objectMetadata.setContentType(file.getContentType());
         objectMetadata.setContentLength(file.getSize());
-        try{
-            s3Client.putObject(bucketName,newFileName,file.getInputStream(),objectMetadata);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        s3Client.putObject(bucketName,newFileName,file.getInputStream(),objectMetadata);
+
         return newFileName;
     }
 

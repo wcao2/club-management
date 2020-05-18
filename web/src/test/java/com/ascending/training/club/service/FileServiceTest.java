@@ -52,7 +52,7 @@ public class FileServiceTest {
     }
 
     @Test
-    public void uploadFileTest4() throws IOException {
+    public void uploadFileTest4() throws Exception {
         MultipartFile testFile=mock(MultipartFile.class);
         //ObjectMetadata mockData = mock(ObjectMetadata.class);
         when(testFile.getInputStream()).thenReturn(mock(InputStream.class));
@@ -65,7 +65,7 @@ public class FileServiceTest {
 
     //s3Client.putObject(bucketName,newFileName,file.getInputStream(),objectMetadata);
     @Test
-    public void uploadFileTest5() throws IOException {
+    public void uploadFileTest5() throws Exception {
         MultipartFile testFile=mock(MultipartFile.class);
         //ObjectMetadata mockData = mock(ObjectMetadata.class);
         when(testFile.getInputStream()).thenReturn(mock(InputStream.class));

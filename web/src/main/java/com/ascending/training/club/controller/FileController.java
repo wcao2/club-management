@@ -43,7 +43,7 @@ public class FileController {
 //    private String bucketName;
 
     @RequestMapping(value = "",method = RequestMethod.POST,consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity uploadFile(@RequestParam("file") MultipartFile file, HttpServletRequest req){
+    public ResponseEntity uploadFile(@RequestParam("file") MultipartFile file, HttpServletRequest req)  {
         logger.info("test file name: "+file.getOriginalFilename());
         HttpSession session=req.getSession();
         Long id = (Long)session.getAttribute("UserId");
@@ -52,7 +52,15 @@ public class FileController {
         User user = userService.getUserById(id);
         if(user==null)
             return ResponseEntity.status(HttpServletResponse.SC_UNAUTHORIZED).body("the user is not exist");
-        String s3Key=fileService.uploadFileToS3(file);
+        //TODO
+        String s3Key= null;
+        try {
+            //should try catch this to send this problem to client side to handle
+            s3Key = fileService.uploadFileToS3(file);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpServletResponse.SC_BAD_REQUEST).body("file to upload file");
+        }
         Image image=new Image(user,file.getOriginalFilename(),s3Key, LocalDateTime.now());
         imageService.save(image);
         //do some operation before send to sqs
