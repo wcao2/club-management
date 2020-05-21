@@ -138,11 +138,11 @@ Postman, Maven, [flyway](https://flywaydb.org/getstarted/why), PostgresSql, Dock
      ![](images/sqs.png)
      #### Use one of the Java Message Service(JMS) model point to point. A message is delivered from a producer to one of the consumer which registered for the queue.   
      ![](images/JMS.png)
-     ####Deploy application into tomcat.  
-     #####1:Package application to a war file
+     #### Deploy application into tomcat.  
+     ##### 1:Package application to a war file
      ![](images/package.png)
-     #####2:Add all vm options from IDE into setenv.sh. For ubuntu, the path is usr/share/tomcat9/bin, then gedit setenv.sh  
-     #####3:Deploy the war file to tomcat container and run it  
+     ##### 2:Add all vm options from IDE into setenv.sh. For ubuntu, the path is usr/share/tomcat9/bin, then gedit setenv.sh  
+     ##### 3:Deploy the war file to tomcat container and run it  
      For build image, there are three essential files(war file, Dockefile, setenv.sh) need to be in the folder called container which in the web folder.
      ![](images/buildImage.png)
      
