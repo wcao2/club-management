@@ -35,7 +35,7 @@ public class SecurityFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-            //how to add DI in filter
+            //how to add DI in filter when deploy at tomcat
             if(userService==null){
                 //injection every dependency
                 SpringBeanAutowiringSupport.processInjectionBasedOnServletContext(this,servletRequest.getServletContext());

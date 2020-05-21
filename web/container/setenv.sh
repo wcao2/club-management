@@ -1,0 +1,11 @@
+export JAVA_OPTS="$JAVA_OPTS -Ddatabase.driver=org.postgresql.Driver"
+export JAVA_OPTS="$JAVA_OPTS -Ddatabase.dialect=org.hibernate.dialect.PostgreSQL9Dialect"
+#Access postgresql's ip 172.17.0.2和port(5432)  sudo docker inspect 8d9ef3f2738d
+export JAVA_OPTS="$JAVA_OPTS -Ddatabase.url=jdbc:postgresql://172.17.0.2:5432/db_club"
+export JAVA_OPTS="$JAVA_OPTS -Ddatabase.user=admin"
+export JAVA_OPTS="$JAVA_OPTS -Ddatabase.password=password"
+export JAVA_OPTS="$JAVA_OPTS -Daws.accessKeyId=AKIA3K7GYGA5H5M27ZNQ"
+export JAVA_OPTS="$JAVA_OPTS -Daws.secretKey=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"
+export JAVA_OPTS="$JAVA_OPTS -Dspring.profiles.active=dev"
+export JAVA_OPTS="$JAVA_OPTS -Daws.s3.bucketName=ascending-weicao"
+export JAVA_OPTS="$JAVA_OPTS -Daws.sqs.name=ascending-queue-weicao"
