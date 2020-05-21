@@ -32,6 +32,7 @@ public class sendEmail {
         try {
             msg.setFrom(new InternetAddress(sendEmailAddress));
             msg.setRecipients(Message.RecipientType.TO,InternetAddress.parse(receiveEmail));
+            //msg.setRecipients(Message.RecipientType.TO,InternetAddress.parse("wcao2@masonlive.gmu.edu"));
             msg.setSubject(subject);
             msg.setText(content);
             msg.setSentDate(new Date());
@@ -40,6 +41,8 @@ public class sendEmail {
             Transport.send(msg);
         } catch (MessagingException e) {
             e.printStackTrace();
+            return;
         }
+        System.out.println("TheEmail"+ receiveEmail+" is sent successfully");
     }
 }

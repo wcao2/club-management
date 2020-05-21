@@ -16,11 +16,11 @@ public class AWSConfigTest {
 
     @Bean
     public AmazonSQS getAmazonSQS(){return mock(AmazonSQS.class);}
-//    @Bean
-//    public AmazonSQS getAmazonSQS(){
-//        AmazonSQS amazonSQS = mock(AmazonSQS.class);
-//        when(amazonSQS.getQueueUrl(anyString())).thenReturn(mock(GetQueueUrlResult.class));
-//        return amazonSQS;
-//
-//    }
+/*    @Bean
+    public AmazonSQS getAmazonSQS(){
+        AmazonSQS amazonSQS = mock(AmazonSQS.class);
+        when(amazonSQS.getQueueUrl(anyString())).thenReturn(mock(GetQueueUrlResult.class));
+        return amazonSQS;
+
+    }*/
 }

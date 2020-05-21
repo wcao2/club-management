@@ -7,6 +7,7 @@ import io.jsonwebtoken.Claims;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
@@ -34,6 +35,11 @@ public class SecurityFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
+            //how to add DI in filter
+            if(userService==null){
+                //injection every dependency
+                SpringBeanAutowiringSupport.processInjectionBasedOnServletContext(this,servletRequest.getServletContext());
+            }
             HttpServletRequest req=(HttpServletRequest)servletRequest; //based on Http status
             int statusCode=authorization(req);
             if(statusCode==HttpServletResponse.SC_ACCEPTED) filterChain.doFilter(servletRequest,servletResponse);

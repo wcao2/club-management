@@ -13,6 +13,7 @@ public class listenSQS  implements MessageListener {
     public void onMessage(Message message) {
         // Cast the received message as TextMessage and print the text to screen.
         try {
+            //convert String to JsonObject
             JSONObject jsonObject = new JSONObject(((TextMessage)message).getText());
             System.out.println("Received: "+((TextMessage)message).getText());
             String content=String.format("you uploaded at ",jsonObject.get("fileName"),jsonObject.get("s3Key"),jsonObject.get("time"));
