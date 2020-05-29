@@ -45,24 +45,25 @@ public class ImageDaoTest {
 
     @After
     public void tearDown(){
+
         userService.deleteUser(testuser.getId());
     }
 
-    @Test
+    /*@Test
     public void saveTest(){
         Image img=new Image(testuser,"1.txt","asdasdasd", LocalDateTime.now());
         Image image = imageDao.save(img);
         Assert.assertEquals("asdasdasd",image.getS3Key());
-    }
+    }*/
 
     @Test
-    public void getByUserIdTest(){
+    public void getImgByUserIdTest(){
         List<Image> images=imageDao.getByUserId(testuser.getId());
         Assert.assertEquals(0,images.size());
     }
 
     @Test
-    public void delByEmployeeIdTest(){
+    public void delImgByUserIdTest(){
         int i = imageDao.delByUserId(testuser.getId());
         Assert.assertEquals(0,i);
     }

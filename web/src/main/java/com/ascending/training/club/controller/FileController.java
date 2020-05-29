@@ -71,7 +71,7 @@ public class FileController {
         map.put("s3key",image.getS3Key());
         map.put("time",image.getCreateTime().toString());
         JSONObject json=new JSONObject(map);
-        //sqs
+        //send to sqs
         messageService.sendMessage(json.toString(),5);
         return ResponseEntity.status(HttpServletResponse.SC_OK).body(s3Key);
     }

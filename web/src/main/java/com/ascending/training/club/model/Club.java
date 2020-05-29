@@ -28,7 +28,7 @@ public class Club {
     @Column(name="location")
     private String location;
     @Column(name="start_date")
-    @CreationTimestamp
+    //@CreationTimestamp
     private LocalDate startDate;
 
     @OneToMany(mappedBy = "club",cascade = CascadeType.REMOVE, fetch=FetchType.LAZY)

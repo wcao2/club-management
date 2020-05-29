@@ -15,7 +15,7 @@ import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.List;
 
-//Filter logFilter=new LogFilter();
+//Filter logFilter=new LogFilter(); filterName: is a instance name
 @WebFilter(filterName = "logFilter",urlPatterns = {"/*"},dispatcherTypes = {DispatcherType.REQUEST})
 public class LogFilter implements Filter {
     private Logger logger= LoggerFactory.getLogger(getClass());
@@ -33,7 +33,9 @@ public class LogFilter implements Filter {
             long startTime=System.currentTimeMillis();
             HttpServletRequest req=(HttpServletRequest)request;
             String logInfo=logInfo(req);
+            //filter chain, until the last one to controller
             chain.doFilter(request,response);
+            //when return response
             logger.info(logInfo.replace("responseTime",String.valueOf(System.currentTimeMillis()-startTime)));
             //post processing
             /*logger.info("i am in logger filter");

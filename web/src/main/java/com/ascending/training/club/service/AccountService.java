@@ -20,7 +20,7 @@ public class AccountService {
     public Account save(Account account){return accountDao.save(account);}
     public boolean deleteAccountById(Long id){return accountDao.delete(id);}
 
-    public List<BigDecimal> getBalanceAll(){
+    public List<BigDecimal> getBalanceOnly(){
         List<Account> allAccounts = accountDao.getAll();
         List<BigDecimal> balance = allAccounts.stream().map(a -> a.getBalance()).collect(Collectors.toList());
         return balance;

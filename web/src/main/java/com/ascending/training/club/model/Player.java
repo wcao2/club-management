@@ -47,8 +47,8 @@ public class Player {
 
     public Player() {}
 
-    public Player(Long id,String name, String email, String address, LocalDate hireDate, String position) {
-        this.id=id;
+    public Player(String name, String email, String address, LocalDate hireDate, String position) {
+        //this.id=id;
         this.name = name;
         this.email = email;
         this.address = address;

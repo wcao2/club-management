@@ -49,7 +49,7 @@ public class AccountController {
     //{prefix}/accounts GET
     @RequestMapping(value = "",method = RequestMethod.GET)
     public List<BigDecimal> getBalanceAll(){
-        List<BigDecimal> balanceAll = accountService.getBalanceAll();
+        List<BigDecimal> balanceAll = accountService.getBalanceOnly();
         return balanceAll;
     }
 

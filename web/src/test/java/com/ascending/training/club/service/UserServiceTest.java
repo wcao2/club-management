@@ -17,9 +17,14 @@ public class UserServiceTest {
     @Autowired
     private UserService userService;
 
+    User u=null;
+
     @Before
-    public void init(){
+    public void init() throws Exception{
         System.out.println("========================start test===============================");
+        String email="xyhuang@training.ascendingdc.com";
+        String password="25f9e794323b453885f5181f1b624d0b";
+        u = userService.getUserByCredentials(email, password);
     }
 
     @After
@@ -28,10 +33,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void getUserByCredentialsTest() throws Exception{
-        String email="xyhuang@training.ascendingdc.com";
-        String password="25f9e794323b453885f5181f1b624d0b";
-        User u = userService.getUserByCredentials(email, password);
+    public void getUserByCredentialsTest(){
         Assert.assertEquals(u.getEmail(),"xyhuang@training.ascendingdc.com");
     }
 

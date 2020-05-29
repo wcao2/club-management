@@ -21,52 +21,56 @@ public class PlayerDaoTest {
     @Autowired
     private PlayerDao playerDao;
 
+    private Player p =null;
     @Before
     public void init(){
         System.out.println("=================test started==========================");
+        Player player=new Player("WuLei","Lei@gmu.edu","9871_MOON_ROAD", LocalDate.now(),"audience");
+        p = playerDao.save(player, "Bayern Munich");
     }
     @After
     public void tearDown(){
-        //clubDao.delete(c1); for save
+        playerDao.delete(p.getId());
         System.out.println("=================test finished==========================");
     }
 
-    @Test
+   /* @Test
     public void saveTest(){ //PASS
         Player player=new Player(3L,"WuLei","Lei@gmu.edu","9871_MOON_ROAD", LocalDate.now(),"audience");
         Player p=playerDao.save(player,"Bayern Munich");
         Assert.assertEquals("WuLei",p.getName());
-    }
+    }*/
 
     @Test
     public void updatePlayerEmailTest(){//PASS
-        Player p = playerDao.getPlayerByName("WuLei");
-        Player player=playerDao.updatePlayerEmail(p);
-        Assert.assertEquals("WuLei",p.getName());
+        Player player = playerDao.getPlayerByName(p.getName());
+        player.setEmail("test@gmu.edu");
+        Player updatePlayer=playerDao.updatePlayerEmail(player);
+        Assert.assertEquals(updatePlayer.getName(),p.getName());
     }
 
     @Test
     public void getPlayerByNameTest(){ //PASS
-        Player p = playerDao.getPlayerByName("Klose");
-        Assert.assertEquals("Klose",p.getName());
+        Player p1 = playerDao.getPlayerByName(p.getName());
+        Assert.assertEquals(p1.getName(),p.getName());
     }
 
-    @Test
+   /* @Test
     public void deletePlayerTest(){//PASS
         Player p = playerDao.getPlayerByName("WuLei");
         boolean a=playerDao.delete(p.getId());
         Assert.assertTrue(a);
-    }
+    }*/
 
     @Test
     public void getPlayersAndClubTest(){//PASS
         List<Player> players = playerDao.getPlayersAndClub();
-        Assert.assertEquals(2,players.size());
+        Assert.assertEquals(3,players.size());
     }
 
     @Test
     public void getPlayerByIdTest(){//PASS
-        Player p = playerDao.getPlayerById(1L);
-        Assert.assertEquals("Mullier",p.getName());
+        Player player = playerDao.getPlayerById(p.getId());
+        Assert.assertEquals(p.getName(),player.getName());
     }
 }

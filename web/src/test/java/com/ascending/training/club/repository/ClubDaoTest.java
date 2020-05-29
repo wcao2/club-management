@@ -21,6 +21,7 @@ public class ClubDaoTest {
     @Autowired
     private ClubDao clubDao;
     private Club c1;
+
     @Before
     public void init(){
         // just for save
@@ -29,52 +30,54 @@ public class ClubDaoTest {
         c1.setName("Spanish");
         //c1.setStartDate();
         c1.setDescription("Chinese player");
+        clubDao.save(c1);
 
         System.out.println("=================test started==========================");
     }
 
     @After
     public void tearDown(){
-        //clubDao.delete(c1); for save
+        Club club=clubDao.getClubByName("Spanish");
+        clubDao.delete(club.getId());
         System.out.println("=================test finished==========================");
     }
 
-    @Test
+    /*@Test
     public void saveTest(){//PASS
         Club c=clubDao.save(c1);
         Assert.assertEquals("Spanish",c.getName());
-    }
+    }*/
 
     @Test
     public void getClubByNameTest(){//PASS
-        Club club=clubDao.getClubByName("Manchester City");
+        Club club=clubDao.getClubByName(c1.getName());
         String name=club.getName();
-        Assert.assertEquals("Manchester City",name);
+        Assert.assertEquals(c1.getName(),name);
     }
 
     @Test
     public void getClubByIdTest(){//PASS
-        Club club=clubDao.getClubById(2L);
+        Club club=clubDao.getClubById(c1.getId());
         String name=club.getName();
-        Assert.assertEquals("Manchester City",name);
+        Assert.assertEquals(club.getName(),name);
     }
 
     @Test
     public void getClubEagerTest(){//PASS
         List<Club> clubs = clubDao.getClubsEager();
-        int expectNum=3;
+        int expectNum=4;
         Assert.assertEquals(expectNum,clubs.size());
     }
 
-    @Test
+    /*@Test
     public void deleteClubTest(){//PASS
         boolean b=clubDao.delete(3L);
         Assert.assertTrue(b);
-    }
+    }*/
 
     @Test
     public void updateClubDescTest(){
-        Club club=clubDao.getClubByName("Spanish");
+        Club club=clubDao.getClubByName(c1.getName());
         club.setDescription("this is a awesome club");
         boolean bool=clubDao.updateDesc(club);
         Assert.assertTrue(bool);

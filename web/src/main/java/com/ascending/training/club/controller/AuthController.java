@@ -36,11 +36,12 @@ public class AuthController {
 
     @RequestMapping(value = "", method = RequestMethod.POST)
     //RequestEntity reteurn both jwt and status(customized http status code)
-    public ResponseEntity userLogin(@RequestBody User user){//
+    public ResponseEntity userLogin(@RequestBody User user){// @RequestBody:Used to convert the input parameter Json into an object(deserialization)
         try{
             User u=null;
             if(user.getEmail()!=null){
                 //if cannot find user, return 401
+                //serialization: omit user.setPassword(123456789)
                 u=userService.getUserByCredentials(user.getEmail(),user.getPassword());
             }else if(user.getName()!=null){
                 u=userService.getUserByCredentials(user.getName(),user.getPassword());
@@ -61,6 +62,7 @@ public class AuthController {
         if(user.getEmail()==null||user.getName()==null||user.getPassword()==null){
             return ResponseEntity.status(HttpServletResponse.SC_UNAUTHORIZED).body("please type necessary information");
         }else{
+            //add a default role to new User
             List<Role> roles=new ArrayList<>();
             Role r=roleDao.getById(2L);
             roles.add(r);

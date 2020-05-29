@@ -21,22 +21,27 @@ public class RoleDaoTest {
     @Autowired
     private RoleDao roleDao;
 
+    private Role role=null;
+
     @Before
     public void init(){
         System.out.println("=============================== test started===============================");
+        role=new Role("normal","A",true,false,false,false);
+        roleDao.save(role);
     }
 
     @After
     public void tearDown(){
+        roleDao.deleteById(role.getId());
         System.out.println("================================finished test===============================");
     }
 
-    @Test  //pass
+  /*  @Test  //pass
     public void saveRoleTest(){
         Role r=new Role("normal","A",true,false,false,false);
         Role role=roleDao.save(r);
         Assert.assertEquals("normal",r.getName());
-    }
+    }*/
 
     @Test  //pass
     public void getRolesTest(){
@@ -47,22 +52,22 @@ public class RoleDaoTest {
 
     @Test    //pass
     public void getRoleByIdTest(){
-        Role role=roleDao.getById(2L);
-        Assert.assertNotNull(role);
-        Assert.assertEquals(2L, role.getId().longValue());
+        Role r=roleDao.getById(role.getId());
+        Assert.assertNotNull(r);
+        Assert.assertEquals(r.getName(), role.getName());
     }
 
-    @Test   //pass
+   /* @Test   //pass
     public void deleteByIdTest(){
         int num=roleDao.deleteById(4L);
         Assert.assertEquals(1,num);
-    }
+    }*/
 
     @Test   //pass
     public void updateRoleTest(){
-        Role role=roleDao.getById(4L);
-        role.setAllowedResource("c://file system/ascending/my programs");
-        int num=roleDao.update(role);
+        Role r=roleDao.getById(role.getId());
+        r.setAllowedResource("c://file system/ascending/my programs");
+        int num=roleDao.update(r);
         Assert.assertEquals(1,num);
     }
 

@@ -145,5 +145,5 @@ Postman, Maven, [flyway](https://flywaydb.org/getstarted/why), PostgresSql, Dock
      ##### 3:Deploy the war file to tomcat container and run it  
      For build image, there are three essential files(war file, Dockefile, setenv.sh) need to be in the folder called container which in the web folder.
      ![](images/buildImage.png)
-     
+     Run Container from image.
      ![](images/runImage.png)

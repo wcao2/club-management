@@ -23,13 +23,12 @@ public class JWTServiceTest {
     private JWTService jwtService;
     @Autowired
     private RoleDao roleDao;
+    @Autowired
+    private UserService userService;
 
     @Test
     public void generateTokenTest(){
-        User u= new User();
-        u.setId(1L);
-        u.setName("dwang");
-
+        User u = userService.getUserById(1L);
         List<Role> roles=new ArrayList<>();
         Role r=roleDao.getById(1L);
         roles.add(r);
@@ -42,9 +41,7 @@ public class JWTServiceTest {
 
     @Test
     public void decryptTokenTest(){
-        User u= new User();
-        u.setId(1L);
-        u.setName("dwang");
+        User u = userService.getUserById(1L);
         String token=jwtService.generateToken(u);
         Claims c=jwtService.decpytToken(token);
         String username=c.getSubject();

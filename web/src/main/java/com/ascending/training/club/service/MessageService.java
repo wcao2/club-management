@@ -18,9 +18,11 @@ public class MessageService {
     //@Autowired
     private AmazonSQS sqsClient;
 
+    //when make bean, it will use MessageService constructor
     public MessageService(@Autowired AmazonSQS amazonSQS){
         this.sqsClient=amazonSQS;
-        queUrl = getQueUrl(System.getProperty("aws.sqs.name"));//test rm this line
+        //test rm this line, this line need to check with getAmazonSQS in AWSConfigTest
+        //queUrl = getQueUrl(System.getProperty("aws.sqs.name"));
     }
 
     //send a message to sqs
@@ -37,8 +39,17 @@ public class MessageService {
     }
 
     public String getQueUrl(String name){
-        //test:if put getQueUrl in constructor, there will be a error=>we couldn't stub the mocked sqsClient before
-        // ;sqsClient is mock, so use getQueueUrl will return null
+        //when test getQueueUrlTest:if put getQueUrl in constructor AND without ... in AWSConfigTest
+        // now, constructor calls getQueUrl(),sqsClient is mock [????but injection doesn't finish:wrong]
+        // sqsClient is mock=>so use getQueueUrl will return null=>getQueueUrlResult is null
+        //==========================  DI==>CONSTRUSTOR==>TEST METHOD
+        // when test getQueueUrlTest:if put getQueUrl in constructor AND with ... in AWSConfigTest
+        // 1st:sqsClient,getQueueUrlResult all mock(execute constructor method:getQueUrl(System.getProperty("aws.sqs.name"));)
+        // 2nd: in @Test getQueueUrlTest method
+        //==========================
+        //two way to solve:
+        // 1: remove  queUrl = getQueUrl(System.getProperty("aws.sqs.name"));  in constructor
+        // 2: don't remove, and add ... in AWSConfigTest
         GetQueueUrlResult getQueueUrlResult=sqsClient.getQueueUrl(name);
         return getQueueUrlResult.getQueueUrl();
     }

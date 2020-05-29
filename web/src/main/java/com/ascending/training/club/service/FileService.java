@@ -29,6 +29,7 @@ public class FileService {
         return uploadFile(bucketName,file);
     }
 
+    //throws exception, then controller can throw the exception to client
     public String uploadFile(String bucketName, MultipartFile file)throws Exception{
         String uuid= UUID.randomUUID().toString();
         String originalFileName=file.getOriginalFilename();
@@ -47,7 +48,7 @@ public class FileService {
     }
 
 
-    public void uploadFile(File file){
+   /* public void uploadFile(File file){
         if(file!=null){
             PutObjectRequest req=new PutObjectRequest(bucketName,file.getName(),file);
             System.out.println(file.getName().toString());
@@ -55,7 +56,7 @@ public class FileService {
         }else {
             logger.error("cannot upload the file");
         }
-    }
+    }*/
 }
 
 

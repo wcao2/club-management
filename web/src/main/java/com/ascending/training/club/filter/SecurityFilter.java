@@ -51,6 +51,7 @@ public class SecurityFilter implements Filter {
         String uri=req.getRequestURI();
         HttpSession session=req.getSession();
 
+        //if it is login or signUp api, just accept
         if(IGNORED_PATHS.contains(uri)) return HttpServletResponse.SC_ACCEPTED;
         String verb=req.getMethod();
         try{
@@ -64,7 +65,7 @@ public class SecurityFilter implements Filter {
                 session.setAttribute("UserId",user.getId());
             }
 
-            //improvement: u.getRoles so the token is not too long
+            //improvement: u.getRoles instead of using token to getRole, so the token is not too long
             String allowedResources="/";
             switch (verb){
                 case "GET" : allowedResources=(String) claims.get("allowedReadResources");break;
@@ -75,7 +76,6 @@ public class SecurityFilter implements Filter {
             for(String s:allowedResources.split(",")){
                 if(s.trim().isEmpty()){
                      break;
-
                 }else {
                     if(uri.trim().toLowerCase().startsWith(s.trim().toLowerCase())){
                         statucCode=HttpServletResponse.SC_ACCEPTED;

@@ -23,40 +23,48 @@ public class AccountServiceTest {
     @Autowired
     private PlayerService playerService;
 
+    private Player player=null;
+    private Account account=null;
+
     @Before
     public void init(){
         System.out.println("========================start test===============================");
+        account=new Account("Bank of England","Credit",new BigDecimal(9999.99));
+        player=playerService.getPlayerByName("Mullier");
+        account.setPlayer(player);
+        accountService.save(account);
     }
 
     @After
     public void tearDown(){
+        accountService.deleteAccountById(account.getId());
         System.out.println("========================finish test===============================");
     }
 
-    @Test
+    /*@Test
     public void saveTest(){
         Account account=new Account("Bank of England","Credit",new BigDecimal(9999.99));
         Player player=playerService.getPlayerByName("Mullier");
         account.setPlayer(player);
         Account a = accountService.save(account);
         Assert.assertEquals("Bank of England",a.getBankName());
-    }
+    }*/
 
     @Test
     public void getAccountByIdTest(){
-        Account account=accountService.getAccountById(11L);
-        Assert.assertEquals("Bank of England",account.getBankName());
+        Account a=accountService.getAccountById(account.getId());
+        Assert.assertEquals(account.getBankName(),a.getBankName());
     }
 
-    @Test
+   /* @Test
     public void deleteAccountByIdTest(){
-        boolean bool=accountService.deleteAccountById(11L);
+        boolean bool=accountService.deleteAccountById(account.getId());
         Assert.assertTrue(bool);
-    }
+    }*/
 
     @Test
-    public void getBalanceAllTest(){
-        List<BigDecimal> balanceAll = accountService.getBalanceAll();
-        Assert.assertEquals(4,balanceAll.size());
+    public void getBalanceOnlyTest(){
+        List<BigDecimal> balanceAll = accountService.getBalanceOnly();
+        Assert.assertEquals(5,balanceAll.size());
     }
 }

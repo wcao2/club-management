@@ -16,6 +16,7 @@ public class AWSConfigTest {
 
     @Bean
     public AmazonSQS getAmazonSQS(){return mock(AmazonSQS.class);}
+
 /*    @Bean
     public AmazonSQS getAmazonSQS(){
         AmazonSQS amazonSQS = mock(AmazonSQS.class);

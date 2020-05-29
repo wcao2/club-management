@@ -27,29 +27,29 @@ public class FileServiceTest {
     @Autowired
     private AmazonS3 s3Client;
 
-    @Test
-    public void uploadFileTest1(){
-        File testFile=new File("/home/weicao/Downloads/sampleFile33.txt");
-        fileService.uploadFile(testFile);
-    }
+//    @Test
+//    public void uploadFileTest1(){
+//        File testFile=new File("/home/weicao/Downloads/sampleFile33.txt");
+//        fileService.uploadFileToS3(testFile);
+//    }
 
-    @Test
-    public void uploadFileTest2(){//
-        AmazonS3 s3Client1=mock(AmazonS3.class);
-        s3Client1.putObject("xxx","xxx","example string");
-        verify(s3Client1,times(1)).putObject(anyString(),anyString(),anyString());
-    }
+//    @Test
+//    public void uploadFileTest2(){//
+//        AmazonS3 s3Client1=mock(AmazonS3.class);
+//        s3Client1.putObject("xxx","xxx","example string");
+//        verify(s3Client1,times(1)).putObject(anyString(),anyString(),anyString());
+//    }
 
-    @Test
-    public void uploadFileTest3(){
-        File testFile=mock(File.class);
-        when(testFile.getName()).thenReturn("sample.txt");
-        fileService.uploadFile(null);
-        verify(s3Client,times(0)).putObject(any(PutObjectRequest.class));
-        fileService.uploadFile(testFile);
-        verify(s3Client,times(1)).putObject(any(PutObjectRequest.class));
-
-    }
+//    @Test
+//    public void uploadFileTest3(){
+//        File testFile=mock(File.class);
+//        when(testFile.getName()).thenReturn("sample.txt");
+//        fileService.uploadFile(null);
+//        verify(s3Client,times(0)).putObject(any(PutObjectRequest.class));
+//        fileService.uploadFile(testFile);
+//        verify(s3Client,times(1)).putObject(any(PutObjectRequest.class));
+//
+//    }
 
     @Test
     public void uploadFileTest4() throws Exception {
@@ -59,21 +59,21 @@ public class FileServiceTest {
         //when(mockData.getContentType()).thenReturn("xxx");
         when(testFile.getOriginalFilename()).thenReturn("yyy");
 
-        fileService.uploadFile("yyy",testFile);
-        verify(s3Client,times(1)).putObject(anyString(),anyString(),any(InputStream.class),any());
-    }
-
-    //s3Client.putObject(bucketName,newFileName,file.getInputStream(),objectMetadata);
-    @Test
-    public void uploadFileTest5() throws Exception {
-        MultipartFile testFile=mock(MultipartFile.class);
-        //ObjectMetadata mockData = mock(ObjectMetadata.class);
-        when(testFile.getInputStream()).thenReturn(mock(InputStream.class));
-        //when(mockData.getContentType()).thenReturn("xxx");
-        when(testFile.getOriginalFilename()).thenReturn("yyy");
         fileService.uploadFileToS3(testFile);
         verify(s3Client,times(1)).putObject(anyString(),anyString(),any(InputStream.class),any());
     }
+
+//    //s3Client.putObject(bucketName,newFileName,file.getInputStream(),objectMetadata);
+//    @Test
+//    public void uploadFileTest5() throws Exception {
+//        MultipartFile testFile=mock(MultipartFile.class);
+//        //ObjectMetadata mockData = mock(ObjectMetadata.class);
+//        when(testFile.getInputStream()).thenReturn(mock(InputStream.class));
+//        //when(mockData.getContentType()).thenReturn("xxx");
+//        when(testFile.getOriginalFilename()).thenReturn("yyy");
+//        fileService.uploadFileToS3(testFile);
+//        verify(s3Client,times(1)).putObject(anyString(),anyString(),any(InputStream.class),any());
+//    }
 
     @Test
     public void getUrlTest() throws MalformedURLException {
