@@ -33,6 +33,7 @@ public class FileService {
     public String uploadFile(String bucketName, MultipartFile file)throws Exception{
         String uuid= UUID.randomUUID().toString();
         String originalFileName=file.getOriginalFilename();
+        //Redefine the naming rules, cos the when file uploaded, same name will be overwritten
         String newFileName=uuid+"."+ Files.getFileExtension(originalFileName);
         ObjectMetadata objectMetadata=new ObjectMetadata();
         objectMetadata.setContentType(file.getContentType());

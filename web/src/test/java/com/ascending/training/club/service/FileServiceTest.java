@@ -60,6 +60,7 @@ public class FileServiceTest {
         when(testFile.getOriginalFilename()).thenReturn("yyy");
 
         fileService.uploadFileToS3(testFile);
+        //verify is only used for mocked s3Client, the verify is using Spies
         verify(s3Client,times(1)).putObject(anyString(),anyString(),any(InputStream.class),any());
     }
 

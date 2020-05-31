@@ -28,6 +28,7 @@ public class MessageService {
     //send a message to sqs
     public void sendMessage(String messageBody, int delaySec){
         if(queUrl==null){
+            //get the url of the queue
             queUrl = getQueUrl(System.getProperty("aws.sqs.name"));
         }
 
@@ -50,6 +51,8 @@ public class MessageService {
         //two way to solve:
         // 1: remove  queUrl = getQueUrl(System.getProperty("aws.sqs.name"));  in constructor
         // 2: don't remove, and add ... in AWSConfigTest
+
+        //stub one name, to get a getQueueUrlResult, and then getQueueUrl()
         GetQueueUrlResult getQueueUrlResult=sqsClient.getQueueUrl(name);
         return getQueueUrlResult.getQueueUrl();
     }

@@ -49,6 +49,7 @@ public class SecurityFilter implements Filter {
     private int authorization(HttpServletRequest req){
         int statucCode= HttpServletResponse.SC_UNAUTHORIZED;
         String uri=req.getRequestURI();
+        //servlet filter manipulate session attribute
         HttpSession session=req.getSession();
 
         //if it is login or signUp api, just accept

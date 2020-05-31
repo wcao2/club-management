@@ -13,10 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -62,8 +59,9 @@ public class FileController {
             return ResponseEntity.status(HttpServletResponse.SC_BAD_REQUEST).body("file to upload file");
         }
         Image image=new Image(user,file.getOriginalFilename(),s3Key, LocalDateTime.now());
+        //save to postgresql
         imageService.save(image);
-        //do some operation before send to sqs
+        //preparation send to sqs
         HashMap map=new HashMap();
         map.put("id",image.getId());
         map.put("email",user.getEmail());
@@ -71,10 +69,11 @@ public class FileController {
         map.put("s3key",image.getS3Key());
         map.put("time",image.getCreateTime().toString());
         JSONObject json=new JSONObject(map);
-        //send to sqs
+        //send to  sqs
         messageService.sendMessage(json.toString(),5);
         return ResponseEntity.status(HttpServletResponse.SC_OK).body(s3Key);
     }
+
 }
 
 
