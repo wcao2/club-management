@@ -19,7 +19,7 @@ public class Club {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id",columnDefinition = "SERIAL")
+    @Column(name="id",columnDefinition = "SERIAL")
     private Long id;
     @Column(name = "name")
     private String name;

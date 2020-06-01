@@ -7,7 +7,7 @@
 );
 
 CREATE TABLE players (
-    id              BIGSERIAL  PRIMARY KEY,
+    id              BIGSERIAL ,
     name            VARCHAR(30) not null unique,
     email           VARCHAR(50),
     address         VARCHAR(150),
@@ -15,6 +15,7 @@ CREATE TABLE players (
     position        varchar(20),
     club_id         BIGINT NOT NULL
 );
+ALTER TABLE players ADD CONSTRAINT players_pk PRIMARY KEY ( id );
 
 CREATE TABLE accounts(
 	id 		BIGSERIAL PRIMARY KEY ,
