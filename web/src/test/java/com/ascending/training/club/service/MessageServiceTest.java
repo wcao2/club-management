@@ -7,6 +7,7 @@ import com.ascending.training.club.init.AppBootStrap;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -23,12 +24,12 @@ public class MessageServiceTest {
     @Autowired
     private MessageService messageService;
 
-    @Test
+   /* @Test
     public void getQueueUrlTest(){
         when(amazonSQS.getQueueUrl(anyString())).thenReturn(mock(GetQueueUrlResult.class));
         messageService.getQueUrl("xxx");
         verify(amazonSQS,times(1)).getQueueUrl(anyString());
-    }
+    }*/
 
     @Test
     public void sendMessageTest(){
