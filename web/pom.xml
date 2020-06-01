@@ -42,9 +42,9 @@
         <version>${flyway.version}</version>
         <configuration>
           <driver>org.postgresql.Driver</driver>
-          <url>jdbc:postgresql://localhost:5431/db_club</url>
-          <user>admin</user>
-          <password>password</password>
+          <url>jdbc:postgresql://${database.url}:${database.port}/{$database.name}</url>
+          <user>${database.user}</user>
+          <password>${database.password}</password>
           <schemas>
             <schema>public</schema>
           </schemas>
