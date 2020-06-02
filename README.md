@@ -138,6 +138,7 @@ Postman, Maven, [flyway](https://flywaydb.org/getstarted/why), PostgresSql, Dock
      ![](images/sqs.png)
      #### Use one of the Java Message Service(JMS) model point to point. A message is delivered from a producer to one of the consumer which registered for the queue.   
      ![](images/JMS.png)
+   ---
      #### Deploy application into tomcat.  
      ##### 1:Package application to a war file
      ![](images/package.png)
@@ -147,3 +148,22 @@ Postman, Maven, [flyway](https://flywaydb.org/getstarted/why), PostgresSql, Dock
      ![](images/buildImage.png)
      Run Container from image.
      ![](images/runImage.png)
+     if hide the credentials info in setenv.sh
+     ![](images/senvsh.png)
+     ```xml
+      sudo docker run -p 8080:8080 -e DB_URL=172.17.0.2 -e DB_NAME=***** -e DB_USER==***** -e DB_PASSWORD==***** -e ACCESS_KEY_ID==***** -e SECRET_KEY==*************** -e DB_PORT=5432  club_app:2.0
+    ```
+     #### Continuous Deployment
+     ##### 1:Upload the source code to GitHub repository
+     ##### 2:Fullfill unit test in docker container
+     ```command line
+    docker pull maven:3.6.0-jdk-8
+     ``` 
+  ```command line
+  docker run -it maven:3.6.0-jdk-8 /bin/bash
+     ```  
+  ![](images/cicd1.png)
+  
+  ![](images/cicd3.png)
+  
+     
