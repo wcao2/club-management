@@ -56,7 +56,7 @@ public class FileController {
             s3Key = fileService.uploadFileToS3(file);
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.status(HttpServletResponse.SC_BAD_REQUEST).body("file to upload file");
+            return ResponseEntity.status(HttpServletResponse.SC_BAD_REQUEST).body("fail to upload file");
         }
         Image image=new Image(user,file.getOriginalFilename(),s3Key, LocalDateTime.now());
         //save to postgresql

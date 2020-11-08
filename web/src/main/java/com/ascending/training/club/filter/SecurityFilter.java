@@ -20,7 +20,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /*
-*  The security filter is usde for user authorization.It checks if there is valid token in every request from the clients,
+*  The security filter is used for user authorization.It checks if there is valid token in every request from the clients,
 *  if the token is valid, then allow the request passing through, otherwise, it will reject the req,and send "the request is denied" message to client
 * */
 @WebFilter(filterName = "securityFilter",urlPatterns = {"/*"},dispatcherTypes = {DispatcherType.REQUEST})
@@ -49,11 +49,13 @@ public class SecurityFilter implements Filter {
     private int authorization(HttpServletRequest req){
         int statucCode= HttpServletResponse.SC_UNAUTHORIZED;
         String uri=req.getRequestURI();
+
         //servlet filter manipulate session attribute
         HttpSession session=req.getSession();
 
         //if it is login or signUp api, just accept
         if(IGNORED_PATHS.contains(uri)) return HttpServletResponse.SC_ACCEPTED;
+
         String verb=req.getMethod();
         try{
             String token=req.getHeader("Authorization").replaceAll("Bearer: ","");//TODO REGEX
@@ -76,7 +78,7 @@ public class SecurityFilter implements Filter {
             }
             for(String s:allowedResources.split(",")){
                 if(s.trim().isEmpty()){
-                     break;
+                     break;//finish loop
                 }else {
                     if(uri.trim().toLowerCase().startsWith(s.trim().toLowerCase())){
                         statucCode=HttpServletResponse.SC_ACCEPTED;

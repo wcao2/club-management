@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Bean;
 
 import java.util.Properties;
 
-//scan HibernateUtil and take it create an instance, and it the methodn in it to return a bean
+//scan HibernateUtil and take it create an instance, and it the method in it to return a bean
 @org.springframework.context.annotation.Configuration
 public class DatabaseConfig {
     //instance variable

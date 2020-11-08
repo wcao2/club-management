@@ -21,7 +21,7 @@ public class MessageService {
     //when make bean, it will use MessageService constructor
     public MessageService(@Autowired AmazonSQS amazonSQS){
         this.sqsClient=amazonSQS;
-        //test rm this line, this line need to check with getAmazonSQS in AWSConfigTest
+        //when test rm this line, this line need to check with getAmazonSQS in AWSConfigTest
         //queUrl = getQueUrl(System.getProperty("aws.sqs.name"));
     }
 

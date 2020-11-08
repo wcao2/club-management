@@ -35,7 +35,7 @@ public class AuthController {
     @Autowired private RoleDao roleDao;
 
     @RequestMapping(value = "", method = RequestMethod.POST)
-    //RequestEntity reteurn both jwt and status(customized http status code)
+    //ResponseEntity return both jwt and status(customized http status code)
     public ResponseEntity userLogin(@RequestBody User user){// @RequestBody:Used to convert the input parameter Json into an object(deserialization)
         try{
             User u=null;
